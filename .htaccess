@@ -1,0 +1,27 @@
+﻿AddDefaultCharset utf-8  
+
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# Mod_Rewrite
+<IfModule mod_rewrite.c>
+    # Enable symlinks
+    Options +FollowSymlinks
+    # Enable mod_rewrite
+    RewriteEngine On
+
+#no end slesh
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} ^(.+)/$
+    RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+    # Backend redirect
+    RewriteCond %{REQUEST_URI} ^/backend
+    RewriteRule ^backend(.*) /backend/web/$1 [L]
+
+    # Frontend redirect
+    RewriteCond %{REQUEST_URI} ^(.*)$
+    RewriteRule ^(.*)$ frontend/web/$1
+
+</IfModule>
